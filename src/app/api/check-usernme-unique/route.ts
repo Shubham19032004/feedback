@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       username: searchParams.get("username"),
     };
     const result = UsernameQuerySchema.safeParse(queryParam);
-    console.log(result);
+
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];
       return Response.json(
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error checking Udername", error);
+    console.error("Error checking username", error);
     return Response.json(
       {
         success: false,

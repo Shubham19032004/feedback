@@ -15,12 +15,12 @@ export async function POST(request: Request) {
         { success: false, message: 'User not found' },
         { status: 404 }
       );
-    }
+    }decodedUsername
 
     // Check if the code is correct and not expired
     const isCodeValid = user.verifyCode === code;
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
-
+    decodedUsername
     if (isCodeValid && isCodeNotExpired) {
       // Update the user's verification status
       user.isVerified = true;

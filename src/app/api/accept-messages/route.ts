@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "failed to update user stauts to aaccept messages",
+          message: "failed to update user status to accept messages",
         },
         { status: 401 }
       );
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.log("failde to update user status ");
+    console.log("failed to update user status ");
     return Response.json(
       {
         success: false,
@@ -53,11 +53,12 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request:Request) {
+
+export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
-try {
+  try {
     if (!session || !session.user) {
       return Response.json(
         {
@@ -68,32 +69,32 @@ try {
       );
     }
     const userId = user._id;
-    const foundUser=await UserModel.findById(userId)
-    if(!foundUser){
+    const foundUser = await UserModel.findById(userId)
+    if (!foundUser) {
       return Response.json(
         {
-          success:false,
-          message:"User not found "
+          success: false,
+          message: "User not found "
         },
-        {status:401}
+        { status: 401 }
       )
     }
     return Response.json(
       {
-        success:false,
-        message:foundUser.isAcceptingMessage
+        success: true,
+        isAcceptingMessage: foundUser.isAcceptingMessage
       },
-      {status:201}
+      { status: 201 }
     )
-} catch (error) {
-  console.log("failde to update user status ");
+  } catch (error) {
+    console.log("failed to update user status ");
     return Response.json(
       {
         success: false,
-        message: "failed to update user status to accept message",
+        message: "Error in getting message acceptance status ",
       },
       { status: 400 }
     );
-}
+  }
 
 }
