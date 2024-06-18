@@ -1,8 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { any } from "zod";
-
 export async function POST(req: Request) {
-
     try {
         //@ts-ignore
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
