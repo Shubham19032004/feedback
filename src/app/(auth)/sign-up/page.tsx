@@ -27,8 +27,9 @@ export default function page() {
     const [usernameMessage, setUsernameMessage] = useState("")
     const [isCheckingUsername, setIsCheckingUsername] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const debouncedUsername = useDebounce(username, 2000)
+    const debouncedUsername = useDebounce(username, 400)
     const { toast } = useToast()
+
     const router = useRouter();
 
     const form = useForm<z.infer<typeof signUpSchema>>({
@@ -40,6 +41,7 @@ export default function page() {
         }
     })
 
+    
     useEffect(() => {
         const checkUsernameUnique = async () => {
             if (debouncedUsername) {
@@ -47,13 +49,14 @@ export default function page() {
                 setUsernameMessage("")
                 try {
                     const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`)
+                    
                     setUsernameMessage(response.data.message)
                 } catch (error) {
                     const axiosError=error as AxiosError<ApiResponse>;
                     setUsernameMessage( 
                         axiosError.response?.data.message ?? "Error checking username"
                     )
-
+                
                 }finally{
                     setIsCheckingUsername(false)
                 }
